@@ -1,0 +1,696 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    overflow-x: clip;
+  }
+  body, #root {
+    max-width: 100%;
+    overflow-x: clip;
+  }
+  h1, h2, h3, h4 {
+    @apply font-heading text-ink;
+    font-optical-sizing: auto;
+  }
+  body {
+    @apply font-body text-[#3B2418] bg-cream;
+  }
+  :focus-visible {
+    outline: 2px solid #6E3719;
+    outline-offset: 2px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  .container-content {
+    @apply max-w-content mx-auto px-5 sm:px-8;
+  }
+
+  /* Pill-shaped eyebrow badge — replaces plain uppercase label */
+  .eyebrow {
+    @apply inline-flex items-center gap-2 rounded-full bg-brand-light px-3.5 py-1.5 text-[0.7rem] font-bold uppercase tracking-[0.12em] text-brand-dark;
+  }
+  .eyebrow::before {
+    content: '';
+    @apply h-1.5 w-1.5 rounded-full bg-brand;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-brand px-7 py-3.5 text-sm font-semibold text-white shadow-soft transition duration-300 hover:-translate-y-0.5 hover:bg-brand-deep hover:shadow-lift focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2;
+  }
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border-2 border-ink/10 bg-transparent px-7 py-3.5 text-sm font-semibold text-ink transition duration-300 hover:-translate-y-0.5 hover:border-gold hover:bg-gold-light;
+  }
+  .btn-outline-light {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border-2 border-white/40 px-7 py-3.5 text-sm font-semibold text-white transition duration-300 hover:-translate-y-0.5 hover:border-gold hover:bg-white/10;
+  }
+
+  /* Organic-corner card — one softened corner breaks the rigid rectangle */
+  .card {
+    @apply rounded-organic border border-brand-deep/10 bg-white p-7 shadow-card transition duration-300 hover:-translate-y-1 hover:shadow-soft;
+  }
+  .card-alt {
+    @apply rounded-organic-r border border-brand-deep/10 bg-white p-7 shadow-card transition duration-300 hover:-translate-y-1 hover:shadow-soft;
+  }
+
+  .section {
+    @apply py-20 sm:py-28;
+  }
+  .section-sand {
+    @apply bg-sand;
+  }
+
+  .icon-tag {
+    @apply inline-flex h-12 w-12 items-center justify-center rounded-blob bg-brand-light text-brand-dark;
+  }
+  .icon-tag-gold {
+    @apply inline-flex h-12 w-12 items-center justify-center rounded-blob bg-gold-light text-gold-dark;
+  }
+
+  .stat-pill {
+    @apply rounded-organic border border-white/15 bg-white/10 px-5 py-4 backdrop-blur-sm;
+  }
+
+  /* VillageVet AI assistant CTA -- a distinct brown-to-gold gradient marks it
+     as a premium CTA, distinct from the standard btn-primary. */
+  .ai-cta-solid {
+    background-image: linear-gradient(135deg, #8B451F 0%, #A5701D 100%);
+  }
+  .ai-cta-solid:hover {
+    background-image: linear-gradient(135deg, #6E3719 0%, #C88924 100%);
+  }
+  .ai-chat-panel {
+    animation: ai-panel-in 0.18s ease-out;
+  }
+  @keyframes ai-panel-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+}
+
+@layer utilities {
+  /* Scroll reveal -- fade-in + slide-up, used by <Reveal> */
+  .reveal-up {
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+  }
+  .reveal-in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal-up {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+
+  .bg-dots {
+    background-image: theme('backgroundImage.dot-grid');
+    background-size: theme('backgroundSize.dots');
+  }
+  .wave-divider {
+    display: block;
+    width: 100%;
+    height: auto;
+    line-height: 0;
+  }
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* VillageVet visual refresh */
+.language-select{display:inline-flex;align-items:center;gap:.45rem;border:1px solid rgba(59,42,31,.13);border-radius:999px;padding:.45rem .7rem;background:rgba(255,255,255,.8);color:#3B2418;box-shadow:0 5px 18px rgba(59,42,31,.05);transition:.2s ease}
+.language-select:hover{border-color:#C88924;box-shadow:0 8px 22px rgba(59,42,31,.08)}
+.language-select select{-webkit-appearance:none;-moz-appearance:none;appearance:none;border:0;outline:0;background:transparent;color:#3B2418;font-size:.76rem;font-weight:750;cursor:pointer}
+/* Mobile: match the desktop pill exactly (brown/gold/cream, rounded), with a
+   visible chevron since appearance:none removes the native one, and a
+   44px-tall tap target so it doesn't render as a bare native select. */
+.language-select-mobile{width:max-content;min-height:44px;padding:.5rem .85rem;background:#fff;position:relative}
+.language-select-mobile select{padding-right:1.1rem;font-size:.8rem}
+.language-select-mobile:after{content:'';pointer-events:none;position:absolute;right:.7rem;top:50%;width:.4rem;height:.4rem;border-right:1.5px solid #C88924;border-bottom:1.5px solid #C88924;transform:translateY(-65%) rotate(45deg)}
+.footer-language-select{display:inline-flex;align-items:center;gap:.35rem;border:1px solid rgba(255,255,255,.15);border-radius:999px;padding:.35rem .6rem;color:rgba(255,255,255,.75)}
+.footer-language-select select{-webkit-appearance:none;-moz-appearance:none;appearance:none;border:0;outline:0;background:transparent;color:rgba(255,255,255,.85);font-size:.72rem;font-weight:700;cursor:pointer}
+.footer-language-select option,.language-select option{color:#3B2418;background:#fff}
+
+/* Mobile nav list: compact, comfortable rows with a guaranteed 44px touch
+   target regardless of script -- centers content vertically instead of
+   relying on padding + line-height, so taller Indic line-heights don't
+   inflate the gap between items the way py-2.5 on its own did. */
+.mobile-nav-link{display:flex;align-items:center;min-height:44px;line-height:1.25}
+.hero-modern{position:relative;overflow:hidden;background:radial-gradient(circle at 6% 12%,rgba(153,88,36,.12),transparent 24rem),radial-gradient(circle at 93% 16%,rgba(183,156,101,.14),transparent 22rem),#FFF9EF}
+.hero-modern-pattern{position:absolute;inset:0;opacity:.2;background-image:radial-gradient(rgba(74,38,19,.14) 1px,transparent 1px);background-size:24px 24px;mask-image:linear-gradient(to bottom,#000,transparent 78%)}
+.hero-modern-copy{position:relative;z-index:3;padding-block:1.5rem}
+.hero-modern-art{position:relative;min-height:28rem;display:flex;align-items:center;justify-content:center}
+.hero-art-glow{position:absolute;width:82%;height:82%;border-radius:46% 54% 42% 58% / 48% 42% 58% 52%;background:#3B2418;transform:rotate(-5deg);box-shadow:0 30px 80px rgba(74,38,19,.18)}
+.hero-art-frame{position:relative;z-index:2;width:100%;overflow:hidden;border:10px solid rgba(255,255,255,.86);border-radius:3rem 1rem 3rem 3rem;background:#F8F1E5;box-shadow:0 35px 85px rgba(59,42,31,.18)}
+.hero-art-frame svg{display:block;width:100%;min-height:28rem}
+.hero-art-topline{position:absolute;z-index:4;left:1.25rem;right:1.25rem;top:1rem;display:flex;justify-content:space-between;color:rgba(59,42,31,.55);font-size:.62rem;font-weight:900;letter-spacing:.18em}
+.hero-float-card{position:absolute;z-index:5;display:flex;align-items:center;gap:.7rem;border:1px solid rgba(74,38,19,.1);background:rgba(255,255,255,.94);box-shadow:0 20px 48px rgba(59,42,31,.14);backdrop-filter:blur(14px)}
+.hero-float-card-main{left:-1rem;bottom:1.25rem;max-width:19rem;border-radius:1.4rem 1.4rem 1.4rem .4rem;padding:.9rem 1rem}
+.hero-float-card-main small{display:block;color:#6E3719;font-size:.62rem;font-weight:850;text-transform:uppercase;letter-spacing:.12em}
+.hero-float-card-main strong{display:block;margin-top:.15rem;color:#3B2418;font-size:.78rem;line-height:1.35}
+.hero-float-icon{display:flex;width:2.65rem;height:2.65rem;align-items:center;justify-content:center;border-radius:50%;background:#DFAF3A;font-size:1.2rem}
+.hero-float-card-side{right:-.8rem;top:2.4rem;flex-direction:column;align-items:flex-start;gap:.1rem;border-radius:1.4rem .4rem 1.4rem 1.4rem;padding:.9rem 1rem}
+.hero-float-card-side strong{font-size:1rem;letter-spacing:.08em}.hero-float-card-side span{color:rgba(59,42,31,.58);font-size:.65rem;font-weight:750}
+.hero-stat{display:flex;min-height:5.1rem;flex-direction:column;justify-content:center;border-left:2px solid #C88924;padding:.6rem .8rem;background:rgba(255,255,255,.5);border-radius:0 1rem 1rem 0}
+.hero-stat strong{color:#6E3719;font-family:'Fraunces',serif;font-size:1.7rem;line-height:1}.hero-stat span{margin-top:.35rem;color:rgba(59,42,31,.52);font-size:.64rem;line-height:1.35}
+.btn-arrow{padding-inline:1.35rem 1.15rem}.btn-arrow span{transition:transform .2s ease}.btn-arrow:hover span{transform:translateX(3px)}
+.hero-bottom-strip{position:relative;z-index:4;border-top:1px solid rgba(74,38,19,.09);background:#3B2418;color:rgba(255,255,255,.74)}
+.hero-bottom-strip span{position:relative;padding-left:1rem;font-size:.72rem;font-weight:750}.hero-bottom-strip span:before{content:'';position:absolute;left:0;top:50%;width:5px;height:5px;border-radius:50%;background:#C88924;transform:translateY(-50%)}
+.service-card{isolation:isolate}.service-card:before{content:'';position:absolute;z-index:-1;right:-3rem;top:-3rem;width:9rem;height:9rem;border-radius:50%;background:#F3E5D6;transition:.3s ease}.service-card:hover:before{transform:scale(1.35);background:#DFAF3A}
+.section + .section{border-top:1px solid rgba(74,38,19,.035)}
+@media(max-width:1023px){.hero-modern-art{min-height:28rem}.hero-float-card-side{right:.5rem}.hero-float-card-main{left:.5rem}}
+@media(max-width:640px){.hero-modern-copy{padding-top:1rem}.hero-modern-art{min-height:23rem}.hero-art-frame{border-width:6px;border-radius:2rem .7rem 2rem 2rem}.hero-art-frame svg{min-height:20rem}.hero-float-card-side{right:-.1rem;top:1.1rem}.hero-float-card-main{left:-.1rem;bottom:.7rem;max-width:15rem}.hero-bottom-strip .container-content{display:grid;grid-template-columns:1fr 1fr}}
+
+/* ==================================================================
+   LANGUAGE-AWARE TYPOGRAPHY (Telugu / Hindi / Tamil / Kannada / Malayalam)
+   English is untouched -- these rules only ever match when
+   document.documentElement.lang (set by LanguageContext) is a non-English
+   code, via the :lang() selector.
+   ================================================================== */
+
+/* Fraunces/Plus Jakarta Sans (the approved English display faces) have no
+   real glyph coverage for these scripts, so headings and body copy switch
+   to a Unicode-capable family. Letter-spacing resets too -- the English
+   heading's tight tracking distorts Indic conjuncts. */
+:lang(te) h1,:lang(te) h2,:lang(te) h3,:lang(te) h4,:lang(te) body,
+:lang(hi) h1,:lang(hi) h2,:lang(hi) h3,:lang(hi) h4,:lang(hi) body,
+:lang(ta) h1,:lang(ta) h2,:lang(ta) h3,:lang(ta) h4,:lang(ta) body,
+:lang(kn) h1,:lang(kn) h2,:lang(kn) h3,:lang(kn) h4,:lang(kn) body,
+:lang(ml) h1,:lang(ml) h2,:lang(ml) h3,:lang(ml) h4,:lang(ml) body{
+  font-family:'Noto Sans','Noto Sans Devanagari','Noto Sans Telugu','Noto Sans Tamil','Noto Sans Kannada','Noto Sans Malayalam',sans-serif;
+  letter-spacing:normal
+}
+
+/* Hero headline -- the reported "excessively large/tall, too many lines,
+   collides with illustration" issue. Each script gets its own size/line
+   height/max-width instead of inheriting the English display scale
+   (text-4xl/5xl/6xl). Specificity of .hero-heading + :lang() beats the
+   Tailwind utility classes still present in the markup. */
+:lang(te) .hero-heading,:lang(hi) .hero-heading,:lang(ta) .hero-heading,:lang(kn) .hero-heading,:lang(ml) .hero-heading{
+  max-width:26rem;
+  font-size:1.85rem;
+  line-height:1.3;
+  font-weight:700
+}
+@media(min-width:640px){
+  :lang(te) .hero-heading,:lang(hi) .hero-heading,:lang(ta) .hero-heading,:lang(kn) .hero-heading,:lang(ml) .hero-heading{
+    max-width:30rem;
+    font-size:2.35rem
+  }
+}
+@media(min-width:1024px){
+  :lang(te) .hero-heading,:lang(hi) .hero-heading,:lang(ta) .hero-heading,:lang(kn) .hero-heading,:lang(ml) .hero-heading{
+    max-width:33rem;
+    font-size:2.75rem
+  }
+}
+
+/* Navbar safety net for long-script labels: even with the wider desktop
+   breakpoint set in Navbar.jsx, allow a link to wrap onto two short lines
+   rather than clip or force horizontal scroll if a label is unusually long. */
+:lang(te) nav[aria-label="Primary"] a,:lang(hi) nav[aria-label="Primary"] a,:lang(ta) nav[aria-label="Primary"] a,:lang(kn) nav[aria-label="Primary"] a,:lang(ml) nav[aria-label="Primary"] a{
+  white-space:normal;
+  text-align:center;
+  line-height:1.2
+}
+
+/* ==================================================================
+   Header v2 — screenshot fix
+   - Desktop/tablet header begins at 1024 CSS px instead of 1536px.
+   - Navigation uses a fixed 9-column grid so translations cannot overflow.
+   - Mobile menu is a fixed slide-over and never changes page layout height.
+   ================================================================== */
+.header-language-select{min-height:42px;padding:.5rem .8rem;background:rgba(255,255,255,.72)}
+.header-language-select select{max-width:8.5rem;font-size:.8rem}
+.header-nav-link{overflow-wrap:anywhere;word-break:normal}
+.header-nav-link span{display:block;max-width:100%}
+
+@media (min-width:1024px){
+  :lang(te) .header-nav-link,
+  :lang(hi) .header-nav-link,
+  :lang(ta) .header-nav-link,
+  :lang(kn) .header-nav-link,
+  :lang(ml) .header-nav-link{
+    font-size:.72rem;
+    line-height:1.3;
+    padding-inline:.35rem
+  }
+}
+
+@media (min-width:1280px){
+  :lang(te) .header-nav-link,
+  :lang(hi) .header-nav-link,
+  :lang(ta) .header-nav-link,
+  :lang(kn) .header-nav-link,
+  :lang(ml) .header-nav-link{
+    font-size:.78rem;
+    padding-inline:.6rem
+  }
+}
+
+/* The old Primary-nav rule allowed wrapping but targeted every anchor. Keep
+   wrapping controlled inside the new grid and remove any accidental nowrap
+   inherited from utility classes. */
+nav[aria-label="Primary"] .header-nav-link{white-space:normal}
+
+.mobile-nav-backdrop{animation:mobile-nav-fade .16s ease-out}
+.mobile-nav-drawer{animation:mobile-nav-slide .22s cubic-bezier(.22,1,.36,1)}
+@keyframes mobile-nav-fade{from{opacity:0}to{opacity:1}}
+@keyframes mobile-nav-slide{from{transform:translateX(100%)}to{transform:translateX(0)}}
+@media(prefers-reduced-motion:reduce){.mobile-nav-backdrop,.mobile-nav-drawer{animation:none}}
+
+/* ==================================================================
+   Dynamic experience layer — motion with restraint
+   ================================================================== */
+.header-progress-track{
+  position:relative;
+  height:4px;
+  overflow:hidden;
+  background:linear-gradient(90deg,rgba(139,69,31,.18),rgba(223,175,58,.18),rgba(139,69,31,.18));
+}
+.header-progress-fill{
+  position:absolute;
+  inset:0;
+  transform-origin:left center;
+  background:linear-gradient(90deg,#8B451F,#DFAF3A,#8B451F);
+  box-shadow:0 0 18px rgba(223,175,58,.45);
+  will-change:transform;
+}
+.header-top-row{
+  min-height:76px;
+  transition:min-height .28s cubic-bezier(.22,1,.36,1),padding .28s cubic-bezier(.22,1,.36,1);
+}
+.header-top-row-scrolled{min-height:64px}
+.header-top-row > a img{transition:height .28s cubic-bezier(.22,1,.36,1),transform .28s ease}
+.header-top-row-scrolled > a img{height:3.55rem}
+
+.page-transition{animation:vv-page-enter .42s cubic-bezier(.22,1,.36,1) both}
+@keyframes vv-page-enter{
+  from{opacity:.45;transform:translateY(8px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* Hero depth: a few pixels of pointer-driven motion are enough to make the
+   illustration feel responsive without becoming distracting. */
+.hero-modern-art{
+  --vv-frame-x:0px;
+  --vv-frame-y:0px;
+  --vv-card-x:0px;
+  --vv-card-y:0px;
+  --vv-main-x:0px;
+  --vv-main-y:0px;
+  --vv-glow-x:0px;
+  --vv-glow-y:0px;
+  perspective:1100px;
+}
+.hero-art-frame{
+  transform:translate3d(var(--vv-frame-x),var(--vv-frame-y),0);
+  transition:transform .32s cubic-bezier(.22,1,.36,1),box-shadow .35s ease;
+  will-change:transform;
+}
+.hero-modern-art:hover .hero-art-frame{box-shadow:0 42px 95px rgba(59,42,31,.22)}
+.hero-art-glow{
+  translate:var(--vv-glow-x) var(--vv-glow-y);
+  transition:translate .45s cubic-bezier(.22,1,.36,1);
+  animation:vv-blob-breathe 9s ease-in-out infinite alternate;
+}
+@keyframes vv-blob-breathe{
+  0%{border-radius:46% 54% 42% 58% / 48% 42% 58% 52%}
+  50%{border-radius:54% 46% 58% 42% / 42% 55% 45% 58%}
+  100%{border-radius:48% 52% 46% 54% / 56% 44% 52% 48%}
+}
+.hero-float-card-main{
+  translate:var(--vv-main-x) var(--vv-main-y);
+  transition:translate .4s cubic-bezier(.22,1,.36,1),box-shadow .3s ease;
+}
+.hero-float-card-side{
+  translate:var(--vv-card-x) var(--vv-card-y);
+  transition:translate .4s cubic-bezier(.22,1,.36,1),box-shadow .3s ease;
+}
+.hero-modern-art:hover .hero-float-card{box-shadow:0 24px 58px rgba(59,42,31,.18)}
+.hero-float-icon{animation:vv-icon-pulse 3.2s ease-in-out infinite}
+@keyframes vv-icon-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
+
+.dynamic-stat{
+  position:relative;
+  overflow:hidden;
+  transition:transform .28s ease,background .28s ease,box-shadow .28s ease;
+}
+.dynamic-stat::after{
+  content:'';
+  position:absolute;
+  inset:-80% -60%;
+  background:linear-gradient(110deg,transparent 38%,rgba(255,255,255,.75) 50%,transparent 62%);
+  transform:translateX(-70%) rotate(8deg);
+  transition:transform .7s cubic-bezier(.22,1,.36,1);
+  pointer-events:none;
+}
+.dynamic-stat:hover{transform:translateY(-3px);background:rgba(255,255,255,.75);box-shadow:0 12px 30px rgba(59,42,31,.08)}
+.dynamic-stat:hover::after{transform:translateX(70%) rotate(8deg)}
+.dynamic-stat strong span{display:inline-block;animation:vv-number-pop .55s cubic-bezier(.22,1,.36,1) both;animation-delay:var(--stat-delay,0ms)}
+@keyframes vv-number-pop{from{opacity:.2;transform:translateY(8px) scale(.9)}to{opacity:1;transform:none}}
+
+/* Existing cards keep their visual language but gain a soft light sweep and
+   a little extra depth when the user interacts with them. */
+.card,.card-alt{position:relative;overflow:hidden;isolation:isolate}
+.card::after,.card-alt::after{
+  content:'';
+  position:absolute;
+  z-index:-1;
+  width:9rem;
+  height:9rem;
+  right:-5rem;
+  bottom:-5rem;
+  border-radius:999px;
+  background:radial-gradient(circle,rgba(223,175,58,.2),transparent 68%);
+  transform:scale(.55);
+  opacity:0;
+  transition:transform .45s cubic-bezier(.22,1,.36,1),opacity .35s ease;
+}
+.card:hover::after,.card-alt:hover::after{opacity:1;transform:scale(1.45)}
+.card:hover,.card-alt:hover{border-color:rgba(200,137,36,.28)}
+
+.dynamic-store-visual > svg:last-child{
+  transition:transform .55s cubic-bezier(.22,1,.36,1),filter .45s ease;
+}
+.dynamic-store-visual:hover > svg:last-child{transform:translateY(-6px) rotate(-.35deg);filter:drop-shadow(0 22px 22px rgba(59,42,31,.12))}
+.dynamic-store-visual > svg:first-child{animation:vv-store-blob 7s ease-in-out infinite alternate}
+@keyframes vv-store-blob{from{transform:translate3d(-2px,2px,0) scale(.99)}to{transform:translate3d(4px,-4px,0) scale(1.015)}}
+
+.dynamic-list-item{transition:transform .28s ease,border-color .28s ease,box-shadow .28s ease}
+.dynamic-list-item:hover{transform:translateX(6px);border-color:rgba(200,137,36,.32);box-shadow:0 12px 28px rgba(59,42,31,.07)}
+.dynamic-list-item span:first-child{transition:transform .28s ease,background .28s ease}
+.dynamic-list-item:hover span:first-child{transform:scale(1.12) rotate(5deg);background:#DFAF3A}
+
+.hero-bottom-strip{overflow:hidden}
+.hero-bottom-strip::after{
+  content:'';
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:-20%;
+  width:18%;
+  background:linear-gradient(90deg,transparent,rgba(223,175,58,.09),transparent);
+  transform:skewX(-18deg);
+  animation:vv-strip-scan 8s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes vv-strip-scan{0%,18%{left:-20%}65%,100%{left:110%}}
+
+@media (hover:none){
+  .card:hover,.card-alt:hover,.dynamic-stat:hover,.dynamic-list-item:hover{transform:none}
+  .dynamic-store-visual:hover > svg:last-child{transform:none;filter:none}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .page-transition,
+  .hero-art-glow,
+  .hero-float-icon,
+  .dynamic-stat strong span,
+  .dynamic-store-visual > svg:first-child,
+  .hero-bottom-strip::after{animation:none!important}
+  .hero-art-frame,.hero-art-glow,.hero-float-card-main,.hero-float-card-side{transform:none!important;translate:none!important}
+}
+
+/* Rotating awareness spotlight uses only existing article content. */
+.awareness-spotlight{min-height:18rem}
+.spotlight-arrow{
+  display:inline-flex;
+  width:2.35rem;
+  height:2.35rem;
+  align-items:center;
+  justify-content:center;
+  border:1px solid rgba(59,42,31,.12);
+  border-radius:999px;
+  background:rgba(255,255,255,.72);
+  color:#6E3719;
+  transition:transform .22s ease,border-color .22s ease,background .22s ease;
+}
+.spotlight-arrow:hover{transform:translateY(-2px);border-color:#C88924;background:#FFF4D9}
+.spotlight-content{animation:vv-spotlight-in .42s cubic-bezier(.22,1,.36,1) both}
+@keyframes vv-spotlight-in{from{opacity:0;transform:translateX(12px)}to{opacity:1;transform:translateX(0)}}
+.spotlight-dot{display:block;width:.45rem;height:.45rem;border-radius:999px;background:rgba(59,42,31,.18);transition:width .3s ease,background .3s ease}
+.spotlight-dot-active{width:1.65rem;background:#C88924}
+@media(prefers-reduced-motion:reduce){.spotlight-content{animation:none!important}}
+
+/* ==================================================================
+   Dynamic V2 — real photography + deeper interaction
+   ================================================================== */
+.hero-photo-frame{background:#2f2119;min-height:31rem}
+.hero-photo-stage{position:relative;height:31rem;overflow:hidden;background:#2f2119}
+.hero-photo-slide{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  opacity:0;
+  transform:scale(1.055);
+  filter:saturate(.9) contrast(.98);
+  transition:opacity .9s ease,transform 6.2s cubic-bezier(.2,.72,.25,1),filter .6s ease;
+  will-change:opacity,transform;
+}
+.hero-photo-slide-active{opacity:1;transform:scale(1.01);filter:saturate(1.02) contrast(1.01)}
+.hero-photo-shade{
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(180deg,rgba(35,20,12,.12),transparent 32%,rgba(35,20,12,.12) 60%,rgba(35,20,12,.58)),
+    linear-gradient(90deg,rgba(35,20,12,.18),transparent 52%);
+  pointer-events:none
+}
+.hero-photo-label{
+  position:absolute;
+  left:1.15rem;
+  bottom:1.15rem;
+  z-index:3;
+  display:inline-flex;
+  align-items:center;
+  gap:.5rem;
+  border:1px solid rgba(255,255,255,.3);
+  border-radius:999px;
+  padding:.5rem .78rem;
+  color:#fff;
+  background:rgba(44,25,15,.54);
+  box-shadow:0 12px 28px rgba(0,0,0,.14);
+  backdrop-filter:blur(12px);
+  font-size:.7rem;
+  font-weight:800;
+  animation:vv-photo-label-in .5s cubic-bezier(.22,1,.36,1) both
+}
+.hero-photo-label::before{content:'';width:.42rem;height:.42rem;border-radius:50%;background:#DFAF3A;box-shadow:0 0 0 4px rgba(223,175,58,.15)}
+@keyframes vv-photo-label-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.hero-photo-controls{
+  position:absolute;
+  right:1.05rem;
+  bottom:1rem;
+  z-index:7;
+  display:flex;
+  align-items:center;
+  gap:.45rem;
+  border:1px solid rgba(255,255,255,.24);
+  border-radius:999px;
+  padding:.35rem;
+  background:rgba(42,24,15,.5);
+  backdrop-filter:blur(12px)
+}
+.hero-photo-controls>button{display:flex;width:2rem;height:2rem;align-items:center;justify-content:center;border-radius:999px;color:#fff;transition:background .2s ease,transform .2s ease}
+.hero-photo-controls>button:hover{background:rgba(255,255,255,.16);transform:scale(1.04)}
+.hero-photo-dots{display:flex;align-items:center;gap:.32rem;padding-inline:.15rem}
+.hero-photo-dots button{width:.42rem;height:.42rem;border-radius:999px;background:rgba(255,255,255,.4);transition:width .3s ease,background .3s ease}
+.hero-photo-dots button.is-active{width:1.15rem;background:#DFAF3A}
+.hero-photo-timer{position:absolute;z-index:8;left:0;bottom:0;height:3px;width:100%;transform-origin:left;background:linear-gradient(90deg,#C88924,#F6E9CC);animation:vv-photo-timer 5.2s linear both}
+@keyframes vv-photo-timer{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.hero-modern-art:hover .hero-photo-timer,.hero-modern-art:focus-within .hero-photo-timer{animation-play-state:paused}
+
+.hero-livestock-stack{min-width:10.8rem;gap:.45rem}
+.hero-mini-photos{display:flex;align-items:center;padding-left:.3rem}
+.hero-mini-photos img{width:2rem;height:2rem;object-fit:cover;border:2px solid #fff;border-radius:999px;margin-left:-.38rem;box-shadow:0 4px 10px rgba(59,36,24,.18);transition:transform .25s ease}
+.hero-mini-photos img:first-child{margin-left:0}
+.hero-livestock-stack:hover .hero-mini-photos img:nth-child(odd){transform:translateY(-3px)}
+.hero-livestock-stack:hover .hero-mini-photos img:nth-child(even){transform:translateY(2px)}
+
+/* Continuous ecosystem movement. The second group is a visual duplicate, so
+   screen readers announce the content only once. */
+.hero-ticker{overflow:hidden;width:100%}
+.hero-ticker-track{display:flex;width:max-content;animation:vv-ticker 28s linear infinite;will-change:transform}
+.hero-ticker-group{display:flex;align-items:center;flex-shrink:0;gap:0;padding-block:.72rem}
+.hero-ticker-group span{position:relative;min-width:max-content;margin-inline:2rem;padding-left:1rem;font-size:.72rem;font-weight:750;color:rgba(255,255,255,.76)}
+.hero-ticker-group span::before{content:'';position:absolute;left:0;top:50%;width:5px;height:5px;border-radius:50%;background:#C88924;transform:translateY(-50%)}
+.hero-bottom-strip:hover .hero-ticker-track{animation-play-state:paused}
+@keyframes vv-ticker{to{transform:translateX(-50%)}}
+
+/* Real livestock cards: photograph first, information second. The card uses
+   a very small pointer tilt, plus a radial highlight that follows the cursor. */
+.farmer-photo-card{
+  --solution-x:0deg;
+  --solution-y:0deg;
+  --solution-glow-x:50%;
+  --solution-glow-y:50%;
+  position:relative;
+  height:100%;
+  overflow:hidden;
+  border:1px solid rgba(59,36,24,.09);
+  border-radius:2rem 2rem 2rem .55rem;
+  background:#fff;
+  box-shadow:0 1px 2px rgba(43,31,23,.05),0 8px 24px rgba(43,31,23,.07);
+  transform:perspective(900px) rotateX(var(--solution-y)) rotateY(var(--solution-x));
+  transform-style:preserve-3d;
+  transition:transform .18s ease,border-color .3s ease,box-shadow .3s ease;
+  isolation:isolate
+}
+.farmer-photo-card::after{
+  content:'';
+  position:absolute;
+  z-index:5;
+  inset:0;
+  pointer-events:none;
+  opacity:0;
+  background:radial-gradient(circle at var(--solution-glow-x) var(--solution-glow-y),rgba(255,255,255,.3),transparent 28%);
+  transition:opacity .25s ease
+}
+.farmer-photo-card:hover{border-color:rgba(200,137,36,.34);box-shadow:0 28px 60px -28px rgba(59,36,24,.42)}
+.farmer-photo-card:hover::after{opacity:1}
+.farmer-photo-media{position:relative;height:14rem;overflow:hidden;background:#493021;transform:translateZ(10px)}
+.farmer-photo-card-compact .farmer-photo-media{height:12.2rem}
+.farmer-photo-media img{display:block;width:100%;height:100%;object-fit:cover;transform:scale(1.015);filter:saturate(.92);transition:transform .7s cubic-bezier(.22,1,.36,1),filter .5s ease}
+.farmer-photo-card:hover .farmer-photo-media img{transform:scale(1.09);filter:saturate(1.06)}
+.farmer-photo-overlay{position:absolute;inset:0;background:linear-gradient(180deg,transparent 35%,rgba(43,24,14,.08) 55%,rgba(43,24,14,.82) 100%)}
+.farmer-photo-number{position:absolute;right:1rem;top:.9rem;display:flex;height:2rem;min-width:2rem;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,.3);border-radius:999px;padding-inline:.5rem;background:rgba(44,25,15,.38);color:#fff;font-size:.62rem;font-weight:850;letter-spacing:.08em;backdrop-filter:blur(10px)}
+.farmer-photo-title{position:absolute;z-index:2;left:1.15rem;right:1.15rem;bottom:1rem;color:#fff!important;font-size:1.25rem;line-height:1.18;text-shadow:0 3px 18px rgba(0,0,0,.28);transform:translateZ(22px)}
+.farmer-photo-card-compact .farmer-photo-title{font-size:1.08rem}
+.farmer-photo-copy{position:relative;z-index:2;padding:1.25rem 1.25rem 1.4rem;background:#fff;transform:translateZ(5px)}
+.farmer-photo-card-compact .farmer-photo-copy{min-height:8.25rem;padding:1rem 1.05rem 1.2rem}
+
+@media(max-width:1023px){
+  .hero-photo-frame,.hero-photo-stage{min-height:0;height:28rem}
+  .hero-ticker-track{animation-duration:32s}
+}
+@media(max-width:640px){
+  .hero-photo-frame,.hero-photo-stage{height:23rem}
+  .hero-photo-controls{right:.65rem;bottom:.65rem}
+  .hero-photo-label{left:.75rem;bottom:.75rem;max-width:48%}
+  .hero-float-card-main{bottom:-.5rem}
+  .hero-livestock-stack{top:1rem;right:.2rem;min-width:8.8rem}
+  .hero-mini-photos img{width:1.65rem;height:1.65rem}
+  .farmer-photo-card-compact .farmer-photo-media{height:13.5rem}
+}
+@media(hover:none){
+  .farmer-photo-card{transform:none!important}
+  .farmer-photo-card:hover .farmer-photo-media img{transform:scale(1.015)}
+}
+@media(prefers-reduced-motion:reduce){
+  .hero-photo-slide{transition:none!important;transform:none!important}
+  .hero-photo-label,.hero-photo-timer,.hero-ticker-track{animation:none!important}
+  .hero-ticker-track{transform:none!important;flex-wrap:wrap;width:100%}
+  .hero-ticker-group[aria-hidden="true"]{display:none}
+  .farmer-photo-card{transform:none!important;transition:none!important}
+}
+
+/* VillageVet AI conversation polish */
+.ai-stream-cursor {
+  display: inline-block;
+  width: 0.42rem;
+  height: 1em;
+  margin-left: 0.16rem;
+  vertical-align: -0.12em;
+  border-radius: 999px;
+  background: currentColor;
+  opacity: 0.5;
+  animation: ai-cursor-blink 0.8s steps(1, end) infinite;
+}
+
+.ai-thinking-dots {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.22rem;
+}
+.ai-thinking-dots i {
+  width: 0.34rem;
+  height: 0.34rem;
+  border-radius: 999px;
+  background: currentColor;
+  opacity: 0.32;
+  animation: ai-thinking-bounce 1s ease-in-out infinite;
+}
+.ai-thinking-dots i:nth-child(2) { animation-delay: 0.13s; }
+.ai-thinking-dots i:nth-child(3) { animation-delay: 0.26s; }
+
+@keyframes ai-thinking-bounce {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.28; }
+  30% { transform: translateY(-0.2rem); opacity: 0.85; }
+}
+@keyframes ai-cursor-blink {
+  0%, 45% { opacity: 0.55; }
+  46%, 100% { opacity: 0; }
+}
+@keyframes ai-suggestions-in {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ai-stream-cursor,
+  .ai-thinking-dots i {
+    animation: none;
+  }
+}
+
+/* ==================================================================
+   VillageVet AI V3 — message actions, scrollbar and mobile polish
+   ================================================================== */
+.ai-chat-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(139, 69, 31, 0.34) transparent;
+  overscroll-behavior: contain;
+  scroll-behavior: smooth;
+}
+.ai-chat-scroll::-webkit-scrollbar { width: 8px; }
+.ai-chat-scroll::-webkit-scrollbar-track { background: transparent; }
+.ai-chat-scroll::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background: rgba(139, 69, 31, 0.28);
+  background-clip: padding-box;
+}
+.ai-chat-scroll::-webkit-scrollbar-thumb:hover { background-color: rgba(139, 69, 31, 0.46); }
+.ai-message-action { -webkit-tap-highlight-color: transparent; }
+.ai-stop-button { box-shadow: 0 0 0 0 rgba(78, 42, 27, 0.2); animation: ai-stop-ready 1.6s ease-out infinite; }
+@keyframes ai-stop-ready {
+  0% { box-shadow: 0 0 0 0 rgba(78, 42, 27, 0.18); }
+  70%, 100% { box-shadow: 0 0 0 7px rgba(78, 42, 27, 0); }
+}
+
+@media (max-width: 639px) {
+  .ai-chat-panel {
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100dvh !important;
+    max-height: none !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+  }
+  .ai-chat-scroll { padding-bottom: 1rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ai-stop-button { animation: none; }
+  .ai-chat-scroll { scroll-behavior: auto; }
+}
