@@ -1,9 +1,0 @@
-
-{
-  "rewrites": [
-    {
-      "source": "/api/:path*",
-      "destination": "https://villagevet-api.onrender.com/api/:path*"
-    }
-  ]
-}
